@@ -117,9 +117,24 @@ public class GUI extends JFrame implements ActionListener {
         if (ae.getSource() == exit) {
             System.exit(0);
         } else if (ae.getSource() == saveBtn) {
+            String name = nameInput.getText();
+            int mark1 = Integer.parseInt(input1.getText());
+            int mark2 = Integer.parseInt(input2.getText());
+            int mark3 = Integer.parseInt(input3.getText());
+            int mark4 = Integer.parseInt(input4.getText());
+            int mark5 = Integer.parseInt(input5.getText());
+            int mark6 = Integer.parseInt(input6.getText());
+            int mark7 = Integer.parseInt(input7.getText());
+            
+            Student st = new Student(name, mark1, mark2, mark3, mark4, mark5, mark6, mark7);
+            
+            FileHandler fh = new FileHandler(name + ".txt");
+            fh.writeToFile(st.printData());
+            fh.close();
             
             JOptionPane.showMessageDialog(null, "Your marks are saved");
         } else if (ae.getSource() == resultBtn) {
+            String name = nameInput.getText();
             int mark1 = Integer.parseInt(input1.getText());
             int mark2 = Integer.parseInt(input2.getText());
             int mark3 = Integer.parseInt(input3.getText());
@@ -183,9 +198,9 @@ public class GUI extends JFrame implements ActionListener {
     
     public int sum(int[] arr) {
         int sum = 0;
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) 
             if (i != 2) sum += arr[i];
-        }
+        
         return sum;
     }
     
