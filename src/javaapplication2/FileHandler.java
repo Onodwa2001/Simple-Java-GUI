@@ -46,10 +46,10 @@ public class FileHandler {
     
     public void close() {
         try {
-            br.close();
+//            br.close();
             bw.close();
             
-            fr.close();
+//            fr.close();
             fw.close();
         } catch(IOException io){
             System.out.println("An error occurred");

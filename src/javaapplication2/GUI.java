@@ -20,23 +20,27 @@ import javax.swing.JTextField;
  * @author Numata
  */
 public class GUI extends JFrame implements ActionListener {
+
     // panels
     JPanel north, center, south;
-    
+
     // input and label
     JLabel heading, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7;
     JTextField nameInput, input1, input2, input3, input4, input5, input6, input7;
-    
+
     // buttons
     JButton saveBtn, exit, resultBtn, clearBtn;
-    
+
+    // File classes
+    FileHandler fh;
+
     public GUI() {
-        
+
         // panel instances
         north = new JPanel();
         center = new JPanel();
         south = new JPanel();
-        
+
         // label instances
         heading = new JLabel("Add You Marks");
         lbl1 = new JLabel("Home Language");
@@ -46,10 +50,10 @@ public class GUI extends JFrame implements ActionListener {
         lbl5 = new JLabel("Elective 1");
         lbl6 = new JLabel("Elective 2");
         lbl7 = new JLabel("Elective 3");
-        
+
         // text field instances
         nameInput = new JTextField("Enter Your Name", 10);
-        
+
         input1 = new JTextField();
         input2 = new JTextField();
         input3 = new JTextField();
@@ -57,17 +61,17 @@ public class GUI extends JFrame implements ActionListener {
         input5 = new JTextField();
         input6 = new JTextField();
         input7 = new JTextField();
-        
+
         // button
         saveBtn = new JButton("Save to txt file");
         exit = new JButton("Exit");
         resultBtn = new JButton("Get Result");
         clearBtn = new JButton("Clear");
     }
-    
+
     public void setGUI() {
         styleGUI();
-        
+
         // add elements to panels
         north.add(heading);
         north.add(nameInput);
@@ -89,31 +93,31 @@ public class GUI extends JFrame implements ActionListener {
         south.add(resultBtn);
         south.add(exit);
         south.add(clearBtn);
-        
+
         // add panel to gui
         this.add(north, BorderLayout.NORTH);
         this.add(center, BorderLayout.CENTER);
         this.add(south, BorderLayout.SOUTH);
-        
+
         // event listener on btn
         saveBtn.addActionListener(this);
         exit.addActionListener(this);
         resultBtn.addActionListener(this);
         clearBtn.addActionListener(this);
-        
+
         // show GUI
         this.setSize(500, 340);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
+
     public void styleGUI() {
         center.setLayout(new GridLayout(7, 2));
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
-        
+
         if (ae.getSource() == exit) {
             System.exit(0);
         } else if (ae.getSource() == saveBtn) {
@@ -125,13 +129,13 @@ public class GUI extends JFrame implements ActionListener {
             int mark5 = Integer.parseInt(input5.getText());
             int mark6 = Integer.parseInt(input6.getText());
             int mark7 = Integer.parseInt(input7.getText());
-            
+
             Student st = new Student(name, mark1, mark2, mark3, mark4, mark5, mark6, mark7);
-            
-            FileHandler fh = new FileHandler(name + ".txt");
+
+            fh = new FileHandler(name + ".docx");
             fh.writeToFile(st.printData());
             fh.close();
-            
+
             JOptionPane.showMessageDialog(null, "Your marks are saved");
         } else if (ae.getSource() == resultBtn) {
             String name = nameInput.getText();
@@ -142,16 +146,18 @@ public class GUI extends JFrame implements ActionListener {
             int mark5 = Integer.parseInt(input5.getText());
             int mark6 = Integer.parseInt(input6.getText());
             int mark7 = Integer.parseInt(input7.getText());
-            
+
             int sum = 0;
-            int[] subjectsArray = { mark1, mark2, mark3, mark4, mark5, mark6, mark7 };
+            String[] subjectNames = {"Home Language", "First Additional Language", 
+                "Life Orientation", "Maths/ Maths Literacy", "Elective 1", "Elective 2", "Elective 3"};
+            int[] subjectsArray = {mark1, mark2, mark3, mark4, mark5, mark6, mark7};
             int[] marks = new int[subjectsArray.length];
-            
+
             int code = 0;
-            
+
             for (int i = 0; i < subjectsArray.length; i++) {
                 sum += subjectsArray[i];
-                
+
                 if (subjectsArray[i] < 30) {
                     code = 1;
                 } else if (subjectsArray[i] >= 30 && subjectsArray[i] < 40) {
@@ -167,21 +173,27 @@ public class GUI extends JFrame implements ActionListener {
                 } else {
                     code = 7;
                 }
-                
+
                 marks[i] = code;
             }
-            
+
             int aps = sum(marks);
             int average = sum / 7;
-            input1.setText(input1.getText() + " - " + marks[0]);
-            input2.setText(input2.getText() + " - " + marks[1]);
-            input3.setText(input3.getText() + " - " + marks[2]);
-            input4.setText(input4.getText() + " - " + marks[3]);
-            input5.setText(input5.getText() + " - " + marks[4]);
-            input6.setText(input6.getText() + " - " + marks[5]);
-            input7.setText(input7.getText() + " - " + marks[6]);
+//            input1.setText(input1.getText() + " - " + marks[0]);
+//            input2.setText(input2.getText() + " - " + marks[1]);
+//            input3.setText(input3.getText() + " - " + marks[2]);
+//            input4.setText(input4.getText() + " - " + marks[3]);
+//            input5.setText(input5.getText() + " - " + marks[4]);
+//            input6.setText(input6.getText() + " - " + marks[5]);
+//            input7.setText(input7.getText() + " - " + marks[6]);
             
+            String results = "";
             
+            for (int i = 0; i < marks.length; i++) {
+                results += subjectNames[i] + " - " + marks[i] + "\n";
+            }
+            
+            JOptionPane.showMessageDialog(null, results);
             JOptionPane.showMessageDialog(null, "Your average mark is: " + average + "\nYour APS is: " + aps);
         } else if (ae.getSource() == clearBtn) {
             nameInput.setText("");
@@ -193,21 +205,23 @@ public class GUI extends JFrame implements ActionListener {
             input6.setText("");
             input7.setText("");
         }
-        
     }
-    
+
     public int sum(int[] arr) {
         int sum = 0;
-        for (int i = 0; i < arr.length; i++) 
-            if (i != 2) sum += arr[i];
-        
+        for (int i = 0; i < arr.length; i++) {
+            if (i != 2) {
+                sum += arr[i];
+            }
+        }
+
         return sum;
     }
-    
+
     public static void main(String[] args) {
-        
+
         GUI g = new GUI();
         g.setGUI();
-        
+
     }
 }
