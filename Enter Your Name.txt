@@ -1,0 +1,10 @@
+Enter Your Name
+===============================
+Home Language: 78
+First Additional Languages: 42
+Life Orientation: 32
+Maths/Maths Literacy: 48
+Elective 1: 38
+Elective 2: 39
+Elective 3: 44
+===============================

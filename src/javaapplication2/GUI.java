@@ -115,6 +115,11 @@ public class GUI extends JFrame implements ActionListener {
         center.setLayout(new GridLayout(7, 2));
     }
 
+//    public boolean validate(int[] arr) {
+//        for (int i = 0; i < arr.length; i++) {
+//            if ()
+//        }
+//    }
     @Override
     public void actionPerformed(ActionEvent ae) {
 
@@ -122,55 +127,75 @@ public class GUI extends JFrame implements ActionListener {
             System.exit(0);
         } else if (ae.getSource() == saveBtn) {
             String name = nameInput.getText();
-            int mark1 = Integer.parseInt(input1.getText());
-            int mark2 = Integer.parseInt(input2.getText());
-            int mark3 = Integer.parseInt(input3.getText());
-            int mark4 = Integer.parseInt(input4.getText());
-            int mark5 = Integer.parseInt(input5.getText());
-            int mark6 = Integer.parseInt(input6.getText());
-            int mark7 = Integer.parseInt(input7.getText());
 
-            Student st = new Student(name, mark1, mark2, mark3, mark4, mark5, mark6, mark7);
+            try {
+                int mark1 = Integer.parseInt(input1.getText());
+                int mark2 = Integer.parseInt(input2.getText());
+                int mark3 = Integer.parseInt(input3.getText());
+                int mark4 = Integer.parseInt(input4.getText());
+                int mark5 = Integer.parseInt(input5.getText());
+                int mark6 = Integer.parseInt(input6.getText());
+                int mark7 = Integer.parseInt(input7.getText());
+                int[] subjectsArray = {mark1, mark2, mark3, mark4, mark5, mark6, mark7};
 
-            fh = new FileHandler(name + ".txt");
-            fh.writeToFile(st.printData());
-            fh.close();
+                Student st = new Student(name, mark1, mark2, mark3, mark4, mark5, mark6, mark7);
 
-            JOptionPane.showMessageDialog(null, "Your marks are saved");
+                fh = new FileHandler(name + ".txt");
+                fh.writeToFile(st.printData());
+                fh.close();
+                
+                // check if values are below or over 100
+                boundsCheck(subjectsArray);
+                
+                JOptionPane.showMessageDialog(null, "Your marks are saved");
+            } catch (NumberFormatException nf) {
+                JOptionPane.showMessageDialog(null, "You have to enter numbers");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Please enter numbers from 1 - 100");
+            }
+
         } else if (ae.getSource() == resultBtn) {
             String name = nameInput.getText();
-            int mark1 = Integer.parseInt(input1.getText());
-            int mark2 = Integer.parseInt(input2.getText());
-            int mark3 = Integer.parseInt(input3.getText());
-            int mark4 = Integer.parseInt(input4.getText());
-            int mark5 = Integer.parseInt(input5.getText());
-            int mark6 = Integer.parseInt(input6.getText());
-            int mark7 = Integer.parseInt(input7.getText());
 
-            int sum = 0;
-            String[] subjectNames = {"Home Language", "First Additional Language", 
-                "Life Orientation", "Maths/ Maths Literacy", "Elective 1", "Elective 2", "Elective 3"};
-            int[] subjectsArray = {mark1, mark2, mark3, mark4, mark5, mark6, mark7};
-            int[] marks = new int[subjectsArray.length];
+            try {
+                int mark1 = Integer.parseInt(input1.getText());
+                int mark2 = Integer.parseInt(input2.getText());
+                int mark3 = Integer.parseInt(input3.getText());
+                int mark4 = Integer.parseInt(input4.getText());
+                int mark5 = Integer.parseInt(input5.getText());
+                int mark6 = Integer.parseInt(input6.getText());
+                int mark7 = Integer.parseInt(input7.getText());
 
-            // get code and store in marks array
-            getCode(subjectsArray, marks);
-            
-            
-            for (int i = 0; i < subjectsArray.length; i++)
-                sum += subjectsArray[i];
+                String[] subjectNames = {"Home Language", "First Additional Language",
+                    "Life Orientation", "Maths/ Maths Literacy", "Elective 1", "Elective 2", "Elective 3"};
+                int[] subjectsArray = {mark1, mark2, mark3, mark4, mark5, mark6, mark7};
+                int[] marks = new int[subjectsArray.length];
+ 
+                // get code and store in marks array
+                this.getCode(subjectsArray, marks);
 
-            int aps = sum(marks);
-            int average = sum / 7;
-            
-            String results = "";
-            
-            for (int i = 0; i < marks.length; i++) {
-                results += subjectNames[i] + " - " + marks[i] + "\n";
+                // calculate APS
+                int aps = calculateAPS(marks);
+                
+                // get average
+                String average = getAverage(subjectsArray) + "";
+                
+                // render result
+                String results = "";
+                for (int i = 0; i < marks.length; i++) {
+                    results += subjectNames[i] + " - " + marks[i] + "\n";
+                }
+                
+                // check if values are below or over 100
+                boundsCheck(subjectsArray);
+
+                JOptionPane.showMessageDialog(null, results);
+                JOptionPane.showMessageDialog(null, "Your average mark is: " + average + "\nYour APS is: " + aps);
+            } catch (NumberFormatException nf) {
+                JOptionPane.showMessageDialog(null, "You have to enter numbers");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Please enter numbers from 1 - 100");
             }
-            
-            JOptionPane.showMessageDialog(null, results);
-            JOptionPane.showMessageDialog(null, "Your average mark is: " + average + "\nYour APS is: " + aps);
         } else if (ae.getSource() == clearBtn) {
             nameInput.setText("");
             input1.setText("");
@@ -182,8 +207,21 @@ public class GUI extends JFrame implements ActionListener {
             input7.setText("");
         }
     }
+    
+    public int getAverage(int[] subjectsArray) {
+        int average = calculateAPS(subjectsArray) / subjectsArray.length;
+        return average;
+    }
+    
+    public void boundsCheck(int[] array) throws Exception {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] < 0 || array[i] > 100) {
+                throw new Exception();
+            }
+        }
+    }
 
-    public int sum(int[] arr) {
+    public int calculateAPS(int[] arr) {
         int sum = 0;
         for (int i = 0; i < arr.length; i++) {
             if (i != 2) {
@@ -193,10 +231,10 @@ public class GUI extends JFrame implements ActionListener {
 
         return sum;
     }
-    
+
     public int getCode(int[] subjectsArray, int[] marks) {
         int code = 0;
-        
+
         for (int i = 0; i < subjectsArray.length; i++) {
             if (subjectsArray[i] < 30) {
                 code = 1;
@@ -210,12 +248,12 @@ public class GUI extends JFrame implements ActionListener {
                 code = 5;
             } else if (subjectsArray[i] >= 70 && subjectsArray[i] < 80) {
                 code = 6;
-            } else {
+            } else if (subjectsArray[i] >= 80 && subjectsArray[i] <= 100) {
                 code = 7;
             }
             marks[i] = code;
         }
-        
+
         return code;
     }
 
