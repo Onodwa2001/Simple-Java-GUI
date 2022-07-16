@@ -132,7 +132,7 @@ public class GUI extends JFrame implements ActionListener {
 
             Student st = new Student(name, mark1, mark2, mark3, mark4, mark5, mark6, mark7);
 
-            fh = new FileHandler(name + ".docx");
+            fh = new FileHandler(name + ".txt");
             fh.writeToFile(st.printData());
             fh.close();
 
@@ -179,13 +179,6 @@ public class GUI extends JFrame implements ActionListener {
 
             int aps = sum(marks);
             int average = sum / 7;
-//            input1.setText(input1.getText() + " - " + marks[0]);
-//            input2.setText(input2.getText() + " - " + marks[1]);
-//            input3.setText(input3.getText() + " - " + marks[2]);
-//            input4.setText(input4.getText() + " - " + marks[3]);
-//            input5.setText(input5.getText() + " - " + marks[4]);
-//            input6.setText(input6.getText() + " - " + marks[5]);
-//            input7.setText(input7.getText() + " - " + marks[6]);
             
             String results = "";
             
