@@ -153,29 +153,12 @@ public class GUI extends JFrame implements ActionListener {
             int[] subjectsArray = {mark1, mark2, mark3, mark4, mark5, mark6, mark7};
             int[] marks = new int[subjectsArray.length];
 
-            int code = 0;
-
-            for (int i = 0; i < subjectsArray.length; i++) {
+            // get code and store in marks array
+            getCode(subjectsArray, marks);
+            
+            
+            for (int i = 0; i < subjectsArray.length; i++)
                 sum += subjectsArray[i];
-
-                if (subjectsArray[i] < 30) {
-                    code = 1;
-                } else if (subjectsArray[i] >= 30 && subjectsArray[i] < 40) {
-                    code = 2;
-                } else if (subjectsArray[i] >= 40 && subjectsArray[i] < 50) {
-                    code = 3;
-                } else if (subjectsArray[i] >= 50 && subjectsArray[i] < 60) {
-                    code = 4;
-                } else if (subjectsArray[i] >= 60 && subjectsArray[i] < 70) {
-                    code = 5;
-                } else if (subjectsArray[i] >= 70 && subjectsArray[i] < 80) {
-                    code = 6;
-                } else {
-                    code = 7;
-                }
-
-                marks[i] = code;
-            }
 
             int aps = sum(marks);
             int average = sum / 7;
@@ -209,6 +192,31 @@ public class GUI extends JFrame implements ActionListener {
         }
 
         return sum;
+    }
+    
+    public int getCode(int[] subjectsArray, int[] marks) {
+        int code = 0;
+        
+        for (int i = 0; i < subjectsArray.length; i++) {
+            if (subjectsArray[i] < 30) {
+                code = 1;
+            } else if (subjectsArray[i] >= 30 && subjectsArray[i] < 40) {
+                code = 2;
+            } else if (subjectsArray[i] >= 40 && subjectsArray[i] < 50) {
+                code = 3;
+            } else if (subjectsArray[i] >= 50 && subjectsArray[i] < 60) {
+                code = 4;
+            } else if (subjectsArray[i] >= 60 && subjectsArray[i] < 70) {
+                code = 5;
+            } else if (subjectsArray[i] >= 70 && subjectsArray[i] < 80) {
+                code = 6;
+            } else {
+                code = 7;
+            }
+            marks[i] = code;
+        }
+        
+        return code;
     }
 
     public static void main(String[] args) {
