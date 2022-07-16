@@ -5,6 +5,8 @@
 package javaapplication2;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -52,8 +55,9 @@ public class GUI extends JFrame implements ActionListener {
         lbl7 = new JLabel("Elective 3");
 
         // text field instances
-        nameInput = new JTextField("Enter Your Name", 10);
-
+        nameInput = new JTextField("Enter Your Name");
+        nameInput.setPreferredSize(new Dimension(155, 35));
+        
         input1 = new JTextField();
         input2 = new JTextField();
         input3 = new JTextField();
@@ -106,20 +110,56 @@ public class GUI extends JFrame implements ActionListener {
         clearBtn.addActionListener(this);
 
         // show GUI
-        this.setSize(500, 340);
+        this.setSize(900, 720);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
     }
 
     public void styleGUI() {
-        center.setLayout(new GridLayout(7, 2));
+        GridLayout layout = new GridLayout(7, 2);
+        layout.setHgap(5);
+        layout.setVgap(5);
+        
+        // set background color or panels
+        north.setBackground(new Color(98, 0, 238));
+        center.setLayout(layout);
+        center.setBackground(new Color(55, 0, 179));
+        south.setBackground(new Color(3, 218, 197));
+        
+        // change color of text
+        heading.setForeground(new Color(255, 255, 255));
+        lbl1.setForeground(new Color(255, 255, 255));
+        lbl2.setForeground(new Color(255, 255, 255));
+        lbl3.setForeground(new Color(255, 255, 255));
+        lbl4.setForeground(new Color(255, 255, 255));
+        lbl5.setForeground(new Color(255, 255, 255));
+        lbl6.setForeground(new Color(255, 255, 255));
+        lbl7.setForeground(new Color(255, 255, 255));
+        
+        // create padding on panel
+        north.setBorder(new EmptyBorder(40, 10, 40, 10));
+        center.setBorder(new EmptyBorder(40, 40, 40, 40));
+        south.setBorder(new EmptyBorder(40, 10, 40, 10));
+        
+        // button color -> 4, 110, 196
+        saveBtn.setBackground(new Color(4, 110, 196));
+        saveBtn.setForeground(new Color(255, 255, 255));
+        saveBtn.setPreferredSize(new Dimension(130, 40));
+        
+        exit.setBackground(new Color(4, 110, 196));
+        exit.setForeground(new Color(255, 255, 255));
+        exit.setPreferredSize(new Dimension(130, 40));
+        
+        resultBtn.setBackground(new Color(4, 110, 196));
+        resultBtn.setForeground(new Color(255, 255, 255));
+        resultBtn.setPreferredSize(new Dimension(130, 40));
+        
+        clearBtn.setBackground(new Color(4, 110, 196));
+        clearBtn.setForeground(new Color(255, 255, 255));
+        clearBtn.setPreferredSize(new Dimension(130, 40));
     }
 
-//    public boolean validate(int[] arr) {
-//        for (int i = 0; i < arr.length; i++) {
-//            if ()
-//        }
-//    }
     @Override
     public void actionPerformed(ActionEvent ae) {
 

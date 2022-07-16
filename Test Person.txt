@@ -1,0 +1,10 @@
+Test Person
+===============================
+Home Language: 85
+First Additional Languages: 45
+Life Orientation: 64
+Maths/Maths Literacy: 87
+Elective 1: 95
+Elective 2: 54
+Elective 3: 46
+===============================
